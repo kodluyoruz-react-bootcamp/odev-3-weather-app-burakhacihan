@@ -1258,6 +1258,8 @@ form textarea {
         font-size: 1.2857142857em;
         font-weight: 400; }
       .forecast-container .forecast.today .degree .num, .forecast-container .forecast.today .degree .forecast-icon {
+        background: #000;
+        border-radius: 34px;
         display: inline-block;
         vertical-align: middle; }
       .forecast-container .forecast.today .degree .num {
@@ -1284,6 +1286,8 @@ form textarea {
       padding: 50px 20px 10px;
       text-align: center; }
       .forecast-container .forecast .forecast-content .forecast-icon {
+        background: #000;
+        border-radius: 34px;
         margin-bottom: 20px; }
       .forecast-container .forecast .forecast-content .degree {
         font-size: 24px;
@@ -1358,3 +1362,5 @@ form textarea {
         border-radius: 5px;
         padding: 10px;
       }
+
+      

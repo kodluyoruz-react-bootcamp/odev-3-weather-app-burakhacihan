@@ -1,33 +1,39 @@
 import {createContext, useState, useEffect} from 'react'
-import axios from 'axios'
+import axios from 'axios';
+import data from '../assets/citylist.json';
 
 const WeatherContext = createContext(null);
 
-const defaultCity = localStorage.getItem("City");
-
 export const WeatherProvider = ({children}) => {
+    const defaultCity = localStorage.getItem("City");
+    const [city,setCity] = useState(defaultCity || "Adana");
+    const [latlon,setLatLon] = useState({
+        latitude: "36.9975315",
+        longitude: "35.2180272"
+    });
 
-    const [city,setCity] = useState(defaultCity);
-
-    const [cities,setCities] = useState([]);
-
-    const [weather,setWeather] = useState([]);
+    const [weather,setWeather] = useState(null);
 
     const values = {
         city,
         setCity,
-        cities,
-        setCities,
         weather,
         setWeather
     }
 
     useEffect(() =>{
         localStorage.setItem("City",city);
-        axios.get(`https://api.openweathermap.org/data/2.5/forecast?id=${city}&mode=json&units=metric&appid=${process.env.REACT_APP_OpenWeatherAPI_KEY}`).then((res) => {
-			setWeather(res.data);
+        data.forEach((item) => {
+            item.name === city &&
+            setLatLon({ latitude: item.latitude, longitude: item.longitude });
         });
-    },[city])
+    },[city]);
+
+    useEffect(() => {
+        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${latlon.latitude}&lon=${latlon.longitude}&exclude=hourly,minutely&appid=${process.env.REACT_APP_OpenWeatherAPI_KEY}&units=metric&lang=tr`).then((res) => {
+            setWeather(res.data);
+        });
+    },[latlon])
 
     return(
         <WeatherContext.Provider value={values}>{children}</WeatherContext.Provider>
